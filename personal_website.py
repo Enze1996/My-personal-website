@@ -7,7 +7,12 @@ app = Flask(__name__)
 
 # 从环境变量读取配置
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key-2025')
-PORT = int(os.environ.get('PORT', 5000))
+port_str = os.environ.get('PORT', '5000')
+try:
+    PORT = int(port_str)
+except ValueError:
+    print(f"Invalid PORT value '{port_str}' from environment, defaulting to 5000")
+    PORT = 5000
 DB_PATH = os.environ.get('DB_PATH', str(Path(__file__).parent / 'messages.db'))
 FLASK_ENV = os.environ.get('FLASK_ENV', 'production')
 
